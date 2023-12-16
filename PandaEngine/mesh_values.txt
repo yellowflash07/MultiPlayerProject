@@ -1,0 +1,14 @@
+Mesh Name:bathtub_xyz_n_rgba.ply
+Friendly Name:bathtub
+Position:0 -30 0
+Rotation:0 0 0
+Scale:1 1 1
+Color:1 1 1 1
+
+Mesh Name:Sphere_1_unit_Radius.ply
+Friendly Name:Sphere
+Position:0 0 0
+Rotation:0 0 0
+Scale:1 1 1
+Color:1 1 1 1
+
