@@ -14,7 +14,8 @@
 #include <conio.h>
 
 #include <string>
-
+#include "TCPDebug.h"
+#include "Buffer.h"
 // Need to link Ws2_32.lib
 #pragma comment(lib, "Ws2_32.lib")
 
@@ -30,8 +31,17 @@ public:
 
 	bool Initialize();
 	void SendDataToServer();
-
+	void SetBuffer(Buffer buf) 
+	{ 
+		m_buffer = buf; 
+		hasData = true;
+	}
+	Buffer GetRecvBuffer() { return m_recvBuffer; }
 private:
 	SOCKET m_serverSocket;
+	Buffer m_buffer;
+	Buffer m_recvBuffer;
+	int bufSize = 1024;
+	bool hasData = false;
 };
 

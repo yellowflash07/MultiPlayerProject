@@ -32,40 +32,70 @@ bool UdpClient::Initialize()
 	}
 	printf("socket created successfully!\n");
 
+	unsigned long nonblock = 1;
+	result = ioctlsocket(m_serverSocket, FIONBIO, &nonblock);
+	if (result == SOCKET_ERROR) 
+	{
+		printf("set nonblocking failed with error %d\n", result);
+		return false;
+	}
+	printf("set nonblocking successfully!\n");
+
 	return true;
 
 }
 
 void UdpClient::SendDataToServer()
 {
-	const int bufLen = 32;
-	char buffer[bufLen];
-	std::string buf = "Hello";
+	//const int bufLen = 32;
+	//char buffer[bufLen];
+	//std::string buf = "Hello";
 	sockaddr_in addr;
 	addr.sin_family = AF_INET;
 	addr.sin_port = htons(8412);
 	addr.sin_addr.s_addr = inet_addr("127.0.0.1");
 	int addrLen = sizeof(addr);
 
-	int result = sendto(m_serverSocket, buf.c_str(), buf.length(), 0, (SOCKADDR*)&addr, addrLen);
-	if (result == SOCKET_ERROR) 
+	if (hasData)
 	{
-		printf("send failed with error %d\n", WSAGetLastError());
-		closesocket(m_serverSocket);
-		WSACleanup();
-		return;
+		int result = sendto(m_serverSocket, (const char*)&m_buffer.bufferData[0], bufSize, 0, (SOCKADDR*)&addr, addrLen);
+		if (result == SOCKET_ERROR)
+		{
+			printf("send failed with error %d\n", WSAGetLastError());
+			closesocket(m_serverSocket);
+			WSACleanup();
+			return;
+		}
+		hasData = false;
 	}
 
-	result = recvfrom(m_serverSocket, buffer, bufLen, 0, (SOCKADDR*)&addr, &addrLen);
+	m_recvBuffer.bufferData.resize(bufSize);
+	int result = recvfrom(m_serverSocket, (char*)&m_recvBuffer.bufferData[0], bufSize, 0, (SOCKADDR*)&addr, &addrLen);
 	if (result == SOCKET_ERROR) 
 	{
+		if (WSAGetLastError() == WSAEWOULDBLOCK)
+		{
+			// Not a real error, we expect this.
+			// -1 is an error, 0 is disconnected, >0 is a message
+			// WSA uses this as a flag to check if it is a real error
+			return;
+		}
 		printf("recvfrom failed with error %d\n", WSAGetLastError());
 		closesocket(m_serverSocket);
 		WSACleanup();
 		return;
 	}
 
-	printf("From: %s:%d: %s\n", inet_ntoa(addr.sin_addr), addr.sin_port, buffer);
+	if (m_recvBuffer.bufferData.size() > 0)
+	{
+		uint32_t len = m_recvBuffer.ReadUInt32LE();
+		std::string str = m_recvBuffer.ReadString(len);
+		printf("Received: %s\n", str.c_str());
+
+		m_recvBuffer.Clear();
+	}
+
+	//printf("From: %s:%d: %s\n", inet_ntoa(addr.sin_addr), addr.sin_port, buffer);
 }
 
 

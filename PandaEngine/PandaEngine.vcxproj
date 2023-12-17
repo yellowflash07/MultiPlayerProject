@@ -162,6 +162,7 @@
     <ClCompile Include="..\TextureManager\CTextureFromBMP.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="AudioUtils.cpp" />
+    <ClCompile Include="Buffer.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="cLightHelper.cpp" />
     <ClCompile Include="cLightManager.cpp" />
@@ -183,6 +184,7 @@
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="ScaleUp.cpp" />
     <ClCompile Include="SceneSaver.cpp" />
+    <ClCompile Include="TCPDebug.cpp" />
     <ClCompile Include="UdpClient.cpp" />
     <ClCompile Include="UdpServer.cpp" />
   </ItemGroup>
@@ -205,6 +207,7 @@
     <ClInclude Include="..\TextureManager\CTextureFromBMP.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="AudioUtils.h" />
+    <ClInclude Include="Buffer.h" />
     <ClInclude Include="cAABB.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="cLightHelper.h" />
@@ -229,6 +232,7 @@
     <ClInclude Include="Random.h" />
     <ClInclude Include="ScaleUp.h" />
     <ClInclude Include="SceneSaver.h" />
+    <ClInclude Include="TCPDebug.h" />
     <ClInclude Include="UdpClient.h" />
     <ClInclude Include="UdpServer.h" />
   </ItemGroup>

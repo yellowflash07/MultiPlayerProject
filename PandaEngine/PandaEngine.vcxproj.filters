@@ -180,6 +180,12 @@
     <ClCompile Include="UdpClient.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="Buffer.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="TCPDebug.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsCommon.h">
@@ -312,6 +318,12 @@
       <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="UdpClient.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Buffer.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="TCPDebug.h">
       <Filter>Network</Filter>
     </ClInclude>
   </ItemGroup>

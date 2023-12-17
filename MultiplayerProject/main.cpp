@@ -6,6 +6,8 @@
 #include "UdpServer.h"
 #include "UdpClient.h"
 #include "../Extern/bin/multiplayer.pb.h"
+#include "Buffer.h"
+#include <conio.h>
 
 extern Camera* camera;
 int keyHit = 0;
@@ -78,24 +80,76 @@ int main(void)
     std::cout << "Client? (y/n) " << std::endl;
     char input;
     std::cin >> input;
+
+    Buffer buf(1024);
+   // std::string str = "Hello";
     if (input == 'y')
     {
         UdpClient client;
-        client.Initialize();
+        if (!client.Initialize())
+        {
+			return 1;
+		}
+       
+      //  buf.WriteUInt32LE(str.length());
+      //  buf.WriteString(str);
+        client.SetBuffer(buf);
         while (true)
         {
             client.SendDataToServer();
-            Sleep(5000);
+
+            if (_kbhit())
+            {
+				keyHit = _getch();
+              //  printf("Hit: %d\n", keyHit);
+                if (keyHit == 119)
+                {
+                    printf("Sending data to server\n");
+                    Vector* playerPos = new Vector();
+                    playerPos->set_x(1);
+                    playerPos->set_y(2);
+                    playerPos->set_z(3);
+
+                    Player* player = new Player();
+                    player->set_allocated_position(playerPos);
+
+                    std::string serializedPlayer = player->SerializeAsString();
+                    buf.WriteUInt32LE(serializedPlayer.length());
+                    buf.WriteString(serializedPlayer);
+                    client.SetBuffer(buf);
+                    
+                }
+			}
+            Sleep(1000);
         }
     }
     else
     {
+        Buffer recvBuf(1024);
         UdpServer server;
-        server.Initialize();
+        if (!server.Initialize())
+        {
+            return 1;
+        }
         while (true)
         {
             server.Listen();
+            recvBuf = server.GetRecvBuffer();
+            if (recvBuf.bufferData.size() > 0)
+            {
+                uint32_t len = recvBuf.ReadUInt32LE();
+                std::string str = recvBuf.ReadString(len);
+                Player player;
+                bool success = player.ParseFromString(str);
+                if (success)
+                {
+                    std::cout << "Received: " << player.position().x() << std::endl;
+                }
+			}
+
+            Sleep(1000);
         }
+
     }
 
 
