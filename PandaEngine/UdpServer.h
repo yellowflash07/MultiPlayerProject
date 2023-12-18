@@ -53,6 +53,6 @@ private:
 	Buffer recvBuffer;
 	void RecvDataFromClient();
 	Buffer m_buffer;
-	int bufSize = 1024;
+	int bufSize = 10240;
 };
 

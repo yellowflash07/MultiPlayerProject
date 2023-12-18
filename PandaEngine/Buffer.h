@@ -64,4 +64,7 @@ public:
 
 	//read index
 	int readIndex;
+
+	//get buffer size
+	int GetSize() { return bufferData.size(); }
 };

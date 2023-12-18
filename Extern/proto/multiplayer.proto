@@ -20,6 +20,7 @@ message Player
 	optional Vector position = 2;
 	optional Vector direction = 3;
 	optional Vector orientation = 4;	
+	optional Bullet bullet = 5;
 }
 
 message Bullet
@@ -33,6 +34,5 @@ message GameScene
 {
 	required int32 id = 1;
 	repeated Player players = 2;
-	repeated Bullet bullets = 3;
 }
 

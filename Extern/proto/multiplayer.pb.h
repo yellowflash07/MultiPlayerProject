@@ -570,6 +570,7 @@ class Player final :
     kPositionFieldNumber = 2,
     kDirectionFieldNumber = 3,
     kOrientationFieldNumber = 4,
+    kBulletFieldNumber = 5,
     kIdFieldNumber = 1,
   };
   // optional .Vector position = 2;
@@ -626,6 +627,24 @@ class Player final :
       ::Vector* orientation);
   ::Vector* unsafe_arena_release_orientation();
 
+  // optional .Bullet bullet = 5;
+  bool has_bullet() const;
+  private:
+  bool _internal_has_bullet() const;
+  public:
+  void clear_bullet();
+  const ::Bullet& bullet() const;
+  PROTOBUF_MUST_USE_RESULT ::Bullet* release_bullet();
+  ::Bullet* mutable_bullet();
+  void set_allocated_bullet(::Bullet* bullet);
+  private:
+  const ::Bullet& _internal_bullet() const;
+  ::Bullet* _internal_mutable_bullet();
+  public:
+  void unsafe_arena_set_allocated_bullet(
+      ::Bullet* bullet);
+  ::Bullet* unsafe_arena_release_bullet();
+
   // required int32 id = 1;
   bool has_id() const;
   private:
@@ -651,6 +670,7 @@ class Player final :
   ::Vector* position_;
   ::Vector* direction_;
   ::Vector* orientation_;
+  ::Bullet* bullet_;
   ::PROTOBUF_NAMESPACE_ID::int32 id_;
   friend struct ::TableStruct_multiplayer_2eproto;
 };
@@ -976,7 +996,6 @@ class GameScene final :
 
   enum : int {
     kPlayersFieldNumber = 2,
-    kBulletsFieldNumber = 3,
     kIdFieldNumber = 1,
   };
   // repeated .Player players = 2;
@@ -996,24 +1015,6 @@ class GameScene final :
   ::Player* add_players();
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Player >&
       players() const;
-
-  // repeated .Bullet bullets = 3;
-  int bullets_size() const;
-  private:
-  int _internal_bullets_size() const;
-  public:
-  void clear_bullets();
-  ::Bullet* mutable_bullets(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Bullet >*
-      mutable_bullets();
-  private:
-  const ::Bullet& _internal_bullets(int index) const;
-  ::Bullet* _internal_add_bullets();
-  public:
-  const ::Bullet& bullets(int index) const;
-  ::Bullet* add_bullets();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Bullet >&
-      bullets() const;
 
   // required int32 id = 1;
   bool has_id() const;
@@ -1038,7 +1039,6 @@ class GameScene final :
   ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Player > players_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Bullet > bullets_;
   ::PROTOBUF_NAMESPACE_ID::int32 id_;
   friend struct ::TableStruct_multiplayer_2eproto;
 };
@@ -1233,7 +1233,7 @@ inline void Vector::set_z(float value) {
 
 // required int32 id = 1;
 inline bool Player::_internal_has_id() const {
-  bool value = (_has_bits_[0] & 0x00000008u) != 0;
+  bool value = (_has_bits_[0] & 0x00000010u) != 0;
   return value;
 }
 inline bool Player::has_id() const {
@@ -1241,7 +1241,7 @@ inline bool Player::has_id() const {
 }
 inline void Player::clear_id() {
   id_ = 0;
-  _has_bits_[0] &= ~0x00000008u;
+  _has_bits_[0] &= ~0x00000010u;
 }
 inline ::PROTOBUF_NAMESPACE_ID::int32 Player::_internal_id() const {
   return id_;
@@ -1251,7 +1251,7 @@ inline ::PROTOBUF_NAMESPACE_ID::int32 Player::id() const {
   return _internal_id();
 }
 inline void Player::_internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _has_bits_[0] |= 0x00000008u;
+  _has_bits_[0] |= 0x00000010u;
   id_ = value;
 }
 inline void Player::set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
@@ -1529,6 +1529,96 @@ inline void Player::set_allocated_orientation(::Vector* orientation) {
   // @@protoc_insertion_point(field_set_allocated:Player.orientation)
 }
 
+// optional .Bullet bullet = 5;
+inline bool Player::_internal_has_bullet() const {
+  bool value = (_has_bits_[0] & 0x00000008u) != 0;
+  PROTOBUF_ASSUME(!value || bullet_ != nullptr);
+  return value;
+}
+inline bool Player::has_bullet() const {
+  return _internal_has_bullet();
+}
+inline void Player::clear_bullet() {
+  if (bullet_ != nullptr) bullet_->Clear();
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline const ::Bullet& Player::_internal_bullet() const {
+  const ::Bullet* p = bullet_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Bullet&>(
+      ::_Bullet_default_instance_);
+}
+inline const ::Bullet& Player::bullet() const {
+  // @@protoc_insertion_point(field_get:Player.bullet)
+  return _internal_bullet();
+}
+inline void Player::unsafe_arena_set_allocated_bullet(
+    ::Bullet* bullet) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(bullet_);
+  }
+  bullet_ = bullet;
+  if (bullet) {
+    _has_bits_[0] |= 0x00000008u;
+  } else {
+    _has_bits_[0] &= ~0x00000008u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Player.bullet)
+}
+inline ::Bullet* Player::release_bullet() {
+  _has_bits_[0] &= ~0x00000008u;
+  ::Bullet* temp = bullet_;
+  bullet_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::Bullet* Player::unsafe_arena_release_bullet() {
+  // @@protoc_insertion_point(field_release:Player.bullet)
+  _has_bits_[0] &= ~0x00000008u;
+  ::Bullet* temp = bullet_;
+  bullet_ = nullptr;
+  return temp;
+}
+inline ::Bullet* Player::_internal_mutable_bullet() {
+  _has_bits_[0] |= 0x00000008u;
+  if (bullet_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Bullet>(GetArenaForAllocation());
+    bullet_ = p;
+  }
+  return bullet_;
+}
+inline ::Bullet* Player::mutable_bullet() {
+  ::Bullet* _msg = _internal_mutable_bullet();
+  // @@protoc_insertion_point(field_mutable:Player.bullet)
+  return _msg;
+}
+inline void Player::set_allocated_bullet(::Bullet* bullet) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete bullet_;
+  }
+  if (bullet) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<::Bullet>::GetOwningArena(bullet);
+    if (message_arena != submessage_arena) {
+      bullet = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, bullet, submessage_arena);
+    }
+    _has_bits_[0] |= 0x00000008u;
+  } else {
+    _has_bits_[0] &= ~0x00000008u;
+  }
+  bullet_ = bullet;
+  // @@protoc_insertion_point(field_set_allocated:Player.bullet)
+}
+
 // -------------------------------------------------------------------
 
 // Bullet
@@ -1749,46 +1839,6 @@ inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Player >&
 GameScene::players() const {
   // @@protoc_insertion_point(field_list:GameScene.players)
   return players_;
-}
-
-// repeated .Bullet bullets = 3;
-inline int GameScene::_internal_bullets_size() const {
-  return bullets_.size();
-}
-inline int GameScene::bullets_size() const {
-  return _internal_bullets_size();
-}
-inline void GameScene::clear_bullets() {
-  bullets_.Clear();
-}
-inline ::Bullet* GameScene::mutable_bullets(int index) {
-  // @@protoc_insertion_point(field_mutable:GameScene.bullets)
-  return bullets_.Mutable(index);
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Bullet >*
-GameScene::mutable_bullets() {
-  // @@protoc_insertion_point(field_mutable_list:GameScene.bullets)
-  return &bullets_;
-}
-inline const ::Bullet& GameScene::_internal_bullets(int index) const {
-  return bullets_.Get(index);
-}
-inline const ::Bullet& GameScene::bullets(int index) const {
-  // @@protoc_insertion_point(field_get:GameScene.bullets)
-  return _internal_bullets(index);
-}
-inline ::Bullet* GameScene::_internal_add_bullets() {
-  return bullets_.Add();
-}
-inline ::Bullet* GameScene::add_bullets() {
-  ::Bullet* _add = _internal_add_bullets();
-  // @@protoc_insertion_point(field_add:GameScene.bullets)
-  return _add;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Bullet >&
-GameScene::bullets() const {
-  // @@protoc_insertion_point(field_list:GameScene.bullets)
-  return bullets_;
 }
 
 #ifdef __GNUC__

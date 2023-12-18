@@ -41,11 +41,11 @@
     <ClInclude Include="PlayerClient.h">
       <Filter>Network</Filter>
     </ClInclude>
-    <ClInclude Include="..\Extern\proto\multiplayer.pb.h">
-      <Filter>Protobuf</Filter>
-    </ClInclude>
     <ClInclude Include="Message.h">
       <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\proto\multiplayer.pb.h">
+      <Filter>Protobuf</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -48,6 +48,7 @@ constexpr Player::Player(
   : position_(nullptr)
   , direction_(nullptr)
   , orientation_(nullptr)
+  , bullet_(nullptr)
   , id_(0){}
 struct PlayerDefaultTypeInternal {
   constexpr PlayerDefaultTypeInternal()
@@ -75,7 +76,6 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT BulletDefaultTypeInternal _Bull
 constexpr GameScene::GameScene(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
   : players_()
-  , bullets_()
   , id_(0){}
 struct GameSceneDefaultTypeInternal {
   constexpr GameSceneDefaultTypeInternal()
@@ -123,10 +123,12 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_multiplayer_2eproto::offsets[]
   PROTOBUF_FIELD_OFFSET(::Player, position_),
   PROTOBUF_FIELD_OFFSET(::Player, direction_),
   PROTOBUF_FIELD_OFFSET(::Player, orientation_),
-  3,
+  PROTOBUF_FIELD_OFFSET(::Player, bullet_),
+  4,
   0,
   1,
   2,
+  3,
   PROTOBUF_FIELD_OFFSET(::Bullet, _has_bits_),
   PROTOBUF_FIELD_OFFSET(::Bullet, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -147,17 +149,15 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_multiplayer_2eproto::offsets[]
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::GameScene, id_),
   PROTOBUF_FIELD_OFFSET(::GameScene, players_),
-  PROTOBUF_FIELD_OFFSET(::GameScene, bullets_),
   0,
-  ~0u,
   ~0u,
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, 8, -1, sizeof(::UserInput)},
   { 10, 19, -1, sizeof(::Vector)},
-  { 22, 32, -1, sizeof(::Player)},
-  { 36, 45, -1, sizeof(::Bullet)},
-  { 48, 57, -1, sizeof(::GameScene)},
+  { 22, 33, -1, sizeof(::Player)},
+  { 38, 47, -1, sizeof(::Bullet)},
+  { 50, 58, -1, sizeof(::GameScene)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -171,14 +171,14 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 const char descriptor_table_protodef_multiplayer_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\021multiplayer.proto\"&\n\tUserInput\022\n\n\002id\030\001"
   " \002(\005\022\r\n\005input\030\002 \002(\t\")\n\006Vector\022\t\n\001x\030\001 \001(\002"
-  "\022\t\n\001y\030\002 \001(\002\022\t\n\001z\030\003 \001(\002\"i\n\006Player\022\n\n\002id\030\001"
-  " \002(\005\022\031\n\010position\030\002 \001(\0132\007.Vector\022\032\n\tdirec"
-  "tion\030\003 \001(\0132\007.Vector\022\034\n\013orientation\030\004 \001(\013"
-  "2\007.Vector\"L\n\006Bullet\022\021\n\thasBullet\030\001 \002(\005\022\023"
-  "\n\013playerIndex\030\002 \002(\005\022\032\n\tdirection\030\003 \002(\0132\007"
-  ".Vector\"K\n\tGameScene\022\n\n\002id\030\001 \002(\005\022\030\n\007play"
-  "ers\030\002 \003(\0132\007.Player\022\030\n\007bullets\030\003 \003(\0132\007.Bu"
-  "llet"
+  "\022\t\n\001y\030\002 \001(\002\022\t\n\001z\030\003 \001(\002\"\202\001\n\006Player\022\n\n\002id\030"
+  "\001 \002(\005\022\031\n\010position\030\002 \001(\0132\007.Vector\022\032\n\tdire"
+  "ction\030\003 \001(\0132\007.Vector\022\034\n\013orientation\030\004 \001("
+  "\0132\007.Vector\022\027\n\006bullet\030\005 \001(\0132\007.Bullet\"L\n\006B"
+  "ullet\022\021\n\thasBullet\030\001 \002(\005\022\023\n\013playerIndex\030"
+  "\002 \002(\005\022\032\n\tdirection\030\003 \002(\0132\007.Vector\"1\n\tGam"
+  "eScene\022\n\n\002id\030\001 \002(\005\022\030\n\007players\030\002 \003(\0132\007.Pl"
+  "ayer"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_multiplayer_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_multiplayer_2eproto = {
@@ -731,7 +731,7 @@ class Player::_Internal {
  public:
   using HasBits = decltype(std::declval<Player>()._has_bits_);
   static void set_has_id(HasBits* has_bits) {
-    (*has_bits)[0] |= 8u;
+    (*has_bits)[0] |= 16u;
   }
   static const ::Vector& position(const Player* msg);
   static void set_has_position(HasBits* has_bits) {
@@ -745,8 +745,12 @@ class Player::_Internal {
   static void set_has_orientation(HasBits* has_bits) {
     (*has_bits)[0] |= 4u;
   }
+  static const ::Bullet& bullet(const Player* msg);
+  static void set_has_bullet(HasBits* has_bits) {
+    (*has_bits)[0] |= 8u;
+  }
   static bool MissingRequiredFields(const HasBits& has_bits) {
-    return ((has_bits[0] & 0x00000008) ^ 0x00000008) != 0;
+    return ((has_bits[0] & 0x00000010) ^ 0x00000010) != 0;
   }
 };
 
@@ -761,6 +765,10 @@ Player::_Internal::direction(const Player* msg) {
 const ::Vector&
 Player::_Internal::orientation(const Player* msg) {
   return *msg->orientation_;
+}
+const ::Bullet&
+Player::_Internal::bullet(const Player* msg) {
+  return *msg->bullet_;
 }
 Player::Player(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
@@ -790,6 +798,11 @@ Player::Player(const Player& from)
   } else {
     orientation_ = nullptr;
   }
+  if (from._internal_has_bullet()) {
+    bullet_ = new ::Bullet(*from.bullet_);
+  } else {
+    bullet_ = nullptr;
+  }
   id_ = from.id_;
   // @@protoc_insertion_point(copy_constructor:Player)
 }
@@ -813,6 +826,7 @@ inline void Player::SharedDtor() {
   if (this != internal_default_instance()) delete position_;
   if (this != internal_default_instance()) delete direction_;
   if (this != internal_default_instance()) delete orientation_;
+  if (this != internal_default_instance()) delete bullet_;
 }
 
 void Player::ArenaDtor(void* object) {
@@ -832,7 +846,7 @@ void Player::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 0x00000007u) {
+  if (cached_has_bits & 0x0000000fu) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(position_ != nullptr);
       position_->Clear();
@@ -844,6 +858,10 @@ void Player::Clear() {
     if (cached_has_bits & 0x00000004u) {
       GOOGLE_DCHECK(orientation_ != nullptr);
       orientation_->Clear();
+    }
+    if (cached_has_bits & 0x00000008u) {
+      GOOGLE_DCHECK(bullet_ != nullptr);
+      bullet_->Clear();
     }
   }
   id_ = 0;
@@ -891,6 +909,14 @@ const char* Player::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::int
         } else
           goto handle_unusual;
         continue;
+      // optional .Bullet bullet = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 42)) {
+          ptr = ctx->ParseMessage(_internal_mutable_bullet(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
       default:
         goto handle_unusual;
     }  // switch
@@ -923,7 +949,7 @@ failure:
 
   cached_has_bits = _has_bits_[0];
   // required int32 id = 1;
-  if (cached_has_bits & 0x00000008u) {
+  if (cached_has_bits & 0x00000010u) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_id(), target);
   }
@@ -952,6 +978,14 @@ failure:
         4, _Internal::orientation(this), target, stream);
   }
 
+  // optional .Bullet bullet = 5;
+  if (cached_has_bits & 0x00000008u) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(
+        5, _Internal::bullet(this), target, stream);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -973,7 +1007,7 @@ size_t Player::ByteSizeLong() const {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 0x00000007u) {
+  if (cached_has_bits & 0x0000000fu) {
     // optional .Vector position = 2;
     if (cached_has_bits & 0x00000001u) {
       total_size += 1 +
@@ -993,6 +1027,13 @@ size_t Player::ByteSizeLong() const {
       total_size += 1 +
         ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
           *orientation_);
+    }
+
+    // optional .Bullet bullet = 5;
+    if (cached_has_bits & 0x00000008u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *bullet_);
     }
 
   }
@@ -1019,7 +1060,7 @@ void Player::MergeFrom(const Player& from) {
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 0x0000000fu) {
+  if (cached_has_bits & 0x0000001fu) {
     if (cached_has_bits & 0x00000001u) {
       _internal_mutable_position()->::Vector::MergeFrom(from._internal_position());
     }
@@ -1030,6 +1071,9 @@ void Player::MergeFrom(const Player& from) {
       _internal_mutable_orientation()->::Vector::MergeFrom(from._internal_orientation());
     }
     if (cached_has_bits & 0x00000008u) {
+      _internal_mutable_bullet()->::Bullet::MergeFrom(from._internal_bullet());
+    }
+    if (cached_has_bits & 0x00000010u) {
       id_ = from.id_;
     }
     _has_bits_[0] |= cached_has_bits;
@@ -1046,6 +1090,9 @@ void Player::CopyFrom(const Player& from) {
 
 bool Player::IsInitialized() const {
   if (_Internal::MissingRequiredFields(_has_bits_)) return false;
+  if (_internal_has_bullet()) {
+    if (!bullet_->IsInitialized()) return false;
+  }
   return true;
 }
 
@@ -1386,8 +1433,7 @@ class GameScene::_Internal {
 GameScene::GameScene(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned),
-  players_(arena),
-  bullets_(arena) {
+  players_(arena) {
   SharedCtor();
   if (!is_message_owned) {
     RegisterArenaDtor(arena);
@@ -1397,8 +1443,7 @@ GameScene::GameScene(::PROTOBUF_NAMESPACE_ID::Arena* arena,
 GameScene::GameScene(const GameScene& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       _has_bits_(from._has_bits_),
-      players_(from.players_),
-      bullets_(from.bullets_) {
+      players_(from.players_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   id_ = from.id_;
   // @@protoc_insertion_point(copy_constructor:GameScene)
@@ -1436,7 +1481,6 @@ void GameScene::Clear() {
   (void) cached_has_bits;
 
   players_.Clear();
-  bullets_.Clear();
   id_ = 0;
   _has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
@@ -1468,19 +1512,6 @@ const char* GameScene::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
           } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
-        } else
-          goto handle_unusual;
-        continue;
-      // repeated .Bullet bullets = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
-          ptr -= 1;
-          do {
-            ptr += 1;
-            ptr = ctx->ParseMessage(_internal_add_bullets(), ptr);
-            CHK_(ptr);
-            if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<26>(ptr));
         } else
           goto handle_unusual;
         continue;
@@ -1529,14 +1560,6 @@ failure:
       InternalWriteMessage(2, this->_internal_players(i), target, stream);
   }
 
-  // repeated .Bullet bullets = 3;
-  for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->_internal_bullets_size()); i < n; i++) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(3, this->_internal_bullets(i), target, stream);
-  }
-
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -1564,13 +1587,6 @@ size_t GameScene::ByteSizeLong() const {
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
-  // repeated .Bullet bullets = 3;
-  total_size += 1UL * this->_internal_bullets_size();
-  for (const auto& msg : this->bullets_) {
-    total_size +=
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
-  }
-
   return MaybeComputeUnknownFieldsSize(total_size, &_cached_size_);
 }
 
@@ -1594,7 +1610,6 @@ void GameScene::MergeFrom(const GameScene& from) {
   (void) cached_has_bits;
 
   players_.MergeFrom(from.players_);
-  bullets_.MergeFrom(from.bullets_);
   if (from._internal_has_id()) {
     _internal_set_id(from._internal_id());
   }
@@ -1611,7 +1626,6 @@ void GameScene::CopyFrom(const GameScene& from) {
 bool GameScene::IsInitialized() const {
   if (_Internal::MissingRequiredFields(_has_bits_)) return false;
   if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(players_)) return false;
-  if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(bullets_)) return false;
   return true;
 }
 
@@ -1620,7 +1634,6 @@ void GameScene::InternalSwap(GameScene* other) {
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   players_.InternalSwap(&other->players_);
-  bullets_.InternalSwap(&other->bullets_);
   swap(id_, other->id_);
 }
 
