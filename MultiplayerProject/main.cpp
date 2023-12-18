@@ -8,6 +8,7 @@
 #include "../Extern/bin/multiplayer.pb.h"
 #include "Buffer.h"
 #include <conio.h>
+#include "PlayerClient.h"
 
 extern Camera* camera;
 int keyHit = 0;
@@ -81,8 +82,11 @@ int main(void)
     char input;
     std::cin >> input;
 
-    Buffer buf(1024);
+    glm::vec3 pos = glm::vec3(0.0f, 0.0f, 0.0f);
+    glm::vec3 dir = glm::vec3(0.0f, 1.0f, 0.0f);
+    PlayerClient* playerClient = new PlayerClient();
    // std::string str = "Hello";
+    Buffer buf(1024);
     if (input == 'y')
     {
         UdpClient client;
@@ -90,10 +94,10 @@ int main(void)
         {
 			return 1;
 		}
-       
+        playerClient->SetClient(client);
       //  buf.WriteUInt32LE(str.length());
       //  buf.WriteString(str);
-        client.SetBuffer(buf);
+       // client.SetBuffer(buf);
         while (true)
         {
             client.SendDataToServer();
@@ -104,19 +108,24 @@ int main(void)
               //  printf("Hit: %d\n", keyHit);
                 if (keyHit == 119)
                 {
+
+                    pos += dir * 1.0f;
+                    playerClient->SetPosition(pos);
+                    playerClient->SendDataToServer();
+
                     printf("Sending data to server\n");
-                    Vector* playerPos = new Vector();
-                    playerPos->set_x(1);
-                    playerPos->set_y(2);
-                    playerPos->set_z(3);
+                    //Vector* playerPos = new Vector();
+                    //playerPos->set_x(1);
+                    //playerPos->set_y(2);
+                    //playerPos->set_z(3);
 
-                    Player* player = new Player();
-                    player->set_allocated_position(playerPos);
+                    //Player* player = new Player();
+                    //player->set_allocated_position(playerPos);
 
-                    std::string serializedPlayer = player->SerializeAsString();
-                    buf.WriteUInt32LE(serializedPlayer.length());
-                    buf.WriteString(serializedPlayer);
-                    client.SetBuffer(buf);
+                    //std::string serializedPlayer = player->SerializeAsString();
+                    //buf.WriteUInt32LE(serializedPlayer.length());
+                    //buf.WriteString(serializedPlayer);
+                    //client.SetBuffer(buf);
                     
                 }
 			}
@@ -143,7 +152,9 @@ int main(void)
                 bool success = player.ParseFromString(str);
                 if (success)
                 {
-                    std::cout << "Received: " << player.position().x() << std::endl;
+                    std::cout << "Received X: " << player.position().x() << std::endl;
+                    std::cout << "Received Y: " << player.position().y() << std::endl;
+                    std::cout << "Received Z: " << player.position().z() << std::endl;
                 }
 			}
 

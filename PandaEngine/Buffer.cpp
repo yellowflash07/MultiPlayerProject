@@ -19,6 +19,12 @@ uint32_t Buffer::ReadUInt32LE()
 void Buffer::WriteUInt32LE(uint32_t value)
 {
 	//write buffer, endian
+
+	if (writeIndex + 4 > bufferData.size())
+	{
+		bufferData.resize(bufferData.size() + 512);
+	}
+
 	bufferData[writeIndex++] = value;
 	bufferData[writeIndex++] = value >> 8;
 	bufferData[writeIndex++] = value >> 16;
@@ -29,6 +35,12 @@ void Buffer::WriteString(const std::string& str)
 {
 	//write string buffer, string doesn't need endian
 	int strLength = str.length();
+
+	if (writeIndex + strLength > bufferData.size())
+	{
+		bufferData.resize(bufferData.size() + 512);
+	}
+
 	for (int i = 0; i < strLength; i++)
 	{
 		bufferData[writeIndex++] = str[i];
@@ -50,5 +62,6 @@ void Buffer::Clear()
 {
 	//clear buffer
 	readIndex = 0;
+	writeIndex = 0;
 	bufferData.clear();
 }

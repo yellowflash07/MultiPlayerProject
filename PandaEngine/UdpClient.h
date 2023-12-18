@@ -33,6 +33,7 @@ public:
 	void SendDataToServer();
 	void SetBuffer(Buffer buf) 
 	{ 
+		m_buffer.Clear();
 		m_buffer = buf; 
 		hasData = true;
 	}

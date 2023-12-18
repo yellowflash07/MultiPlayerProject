@@ -75,7 +75,7 @@ void UdpClient::SendDataToServer()
 	{
 		if (WSAGetLastError() == WSAEWOULDBLOCK)
 		{
-			// Not a real error, we expect this.
+			// Not a real error, we expect this.--------
 			// -1 is an error, 0 is disconnected, >0 is a message
 			// WSA uses this as a flag to check if it is a real error
 			return;
@@ -93,6 +93,7 @@ void UdpClient::SendDataToServer()
 		printf("Received: %s\n", str.c_str());
 
 		m_recvBuffer.Clear();
+		m_buffer.Clear();
 	}
 
 	//printf("From: %s:%d: %s\n", inet_ntoa(addr.sin_addr), addr.sin_port, buffer);
