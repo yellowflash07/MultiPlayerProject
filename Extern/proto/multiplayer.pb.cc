@@ -49,7 +49,8 @@ constexpr Player::Player(
   , direction_(nullptr)
   , orientation_(nullptr)
   , bullet_(nullptr)
-  , id_(0){}
+  , id_(0)
+  , requestid_(0){}
 struct PlayerDefaultTypeInternal {
   constexpr PlayerDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -120,11 +121,13 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_multiplayer_2eproto::offsets[]
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::Player, id_),
+  PROTOBUF_FIELD_OFFSET(::Player, requestid_),
   PROTOBUF_FIELD_OFFSET(::Player, position_),
   PROTOBUF_FIELD_OFFSET(::Player, direction_),
   PROTOBUF_FIELD_OFFSET(::Player, orientation_),
   PROTOBUF_FIELD_OFFSET(::Player, bullet_),
   4,
+  5,
   0,
   1,
   2,
@@ -155,9 +158,9 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_multiplayer_2eproto::offsets[]
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, 8, -1, sizeof(::UserInput)},
   { 10, 19, -1, sizeof(::Vector)},
-  { 22, 33, -1, sizeof(::Player)},
-  { 38, 47, -1, sizeof(::Bullet)},
-  { 50, 58, -1, sizeof(::GameScene)},
+  { 22, 34, -1, sizeof(::Player)},
+  { 40, 49, -1, sizeof(::Bullet)},
+  { 52, 60, -1, sizeof(::GameScene)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -171,18 +174,18 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 const char descriptor_table_protodef_multiplayer_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\021multiplayer.proto\"&\n\tUserInput\022\n\n\002id\030\001"
   " \002(\005\022\r\n\005input\030\002 \002(\t\")\n\006Vector\022\t\n\001x\030\001 \001(\002"
-  "\022\t\n\001y\030\002 \001(\002\022\t\n\001z\030\003 \001(\002\"\202\001\n\006Player\022\n\n\002id\030"
-  "\001 \002(\005\022\031\n\010position\030\002 \001(\0132\007.Vector\022\032\n\tdire"
-  "ction\030\003 \001(\0132\007.Vector\022\034\n\013orientation\030\004 \001("
-  "\0132\007.Vector\022\027\n\006bullet\030\005 \001(\0132\007.Bullet\"L\n\006B"
-  "ullet\022\021\n\thasBullet\030\001 \002(\005\022\023\n\013playerIndex\030"
-  "\002 \002(\005\022\032\n\tdirection\030\003 \002(\0132\007.Vector\"1\n\tGam"
-  "eScene\022\n\n\002id\030\001 \002(\005\022\030\n\007players\030\002 \003(\0132\007.Pl"
-  "ayer"
+  "\022\t\n\001y\030\002 \001(\002\022\t\n\001z\030\003 \001(\002\"\225\001\n\006Player\022\n\n\002id\030"
+  "\001 \002(\005\022\021\n\trequestId\030\006 \001(\005\022\031\n\010position\030\002 \001"
+  "(\0132\007.Vector\022\032\n\tdirection\030\003 \001(\0132\007.Vector\022"
+  "\034\n\013orientation\030\004 \001(\0132\007.Vector\022\027\n\006bullet\030"
+  "\005 \001(\0132\007.Bullet\"L\n\006Bullet\022\021\n\thasBullet\030\001 "
+  "\002(\005\022\023\n\013playerIndex\030\002 \002(\005\022\032\n\tdirection\030\003 "
+  "\002(\0132\007.Vector\"1\n\tGameScene\022\n\n\002id\030\001 \002(\005\022\030\n"
+  "\007players\030\002 \003(\0132\007.Player"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_multiplayer_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_multiplayer_2eproto = {
-  false, false, 364, descriptor_table_protodef_multiplayer_2eproto, "multiplayer.proto", 
+  false, false, 383, descriptor_table_protodef_multiplayer_2eproto, "multiplayer.proto", 
   &descriptor_table_multiplayer_2eproto_once, nullptr, 0, 5,
   schemas, file_default_instances, TableStruct_multiplayer_2eproto::offsets,
   file_level_metadata_multiplayer_2eproto, file_level_enum_descriptors_multiplayer_2eproto, file_level_service_descriptors_multiplayer_2eproto,
@@ -733,6 +736,9 @@ class Player::_Internal {
   static void set_has_id(HasBits* has_bits) {
     (*has_bits)[0] |= 16u;
   }
+  static void set_has_requestid(HasBits* has_bits) {
+    (*has_bits)[0] |= 32u;
+  }
   static const ::Vector& position(const Player* msg);
   static void set_has_position(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
@@ -803,15 +809,17 @@ Player::Player(const Player& from)
   } else {
     bullet_ = nullptr;
   }
-  id_ = from.id_;
+  ::memcpy(&id_, &from.id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&requestid_) -
+    reinterpret_cast<char*>(&id_)) + sizeof(requestid_));
   // @@protoc_insertion_point(copy_constructor:Player)
 }
 
 void Player::SharedCtor() {
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
     reinterpret_cast<char*>(&position_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&id_) -
-    reinterpret_cast<char*>(&position_)) + sizeof(id_));
+    0, static_cast<size_t>(reinterpret_cast<char*>(&requestid_) -
+    reinterpret_cast<char*>(&position_)) + sizeof(requestid_));
 }
 
 Player::~Player() {
@@ -864,7 +872,11 @@ void Player::Clear() {
       bullet_->Clear();
     }
   }
-  id_ = 0;
+  if (cached_has_bits & 0x00000030u) {
+    ::memset(&id_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&requestid_) -
+        reinterpret_cast<char*>(&id_)) + sizeof(requestid_));
+  }
   _has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -913,6 +925,15 @@ const char* Player::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::int
       case 5:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 42)) {
           ptr = ctx->ParseMessage(_internal_mutable_bullet(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional int32 requestId = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 48)) {
+          _Internal::set_has_requestid(&has_bits);
+          requestid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -986,6 +1007,12 @@ failure:
         5, _Internal::bullet(this), target, stream);
   }
 
+  // optional int32 requestId = 6;
+  if (cached_has_bits & 0x00000020u) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(6, this->_internal_requestid(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -1037,6 +1064,11 @@ size_t Player::ByteSizeLong() const {
     }
 
   }
+  // optional int32 requestId = 6;
+  if (cached_has_bits & 0x00000020u) {
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_requestid());
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_cached_size_);
 }
 
@@ -1060,7 +1092,7 @@ void Player::MergeFrom(const Player& from) {
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 0x0000001fu) {
+  if (cached_has_bits & 0x0000003fu) {
     if (cached_has_bits & 0x00000001u) {
       _internal_mutable_position()->::Vector::MergeFrom(from._internal_position());
     }
@@ -1075,6 +1107,9 @@ void Player::MergeFrom(const Player& from) {
     }
     if (cached_has_bits & 0x00000010u) {
       id_ = from.id_;
+    }
+    if (cached_has_bits & 0x00000020u) {
+      requestid_ = from.requestid_;
     }
     _has_bits_[0] |= cached_has_bits;
   }
@@ -1101,8 +1136,8 @@ void Player::InternalSwap(Player* other) {
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(Player, id_)
-      + sizeof(Player::id_)
+      PROTOBUF_FIELD_OFFSET(Player, requestid_)
+      + sizeof(Player::requestid_)
       - PROTOBUF_FIELD_OFFSET(Player, position_)>(
           reinterpret_cast<char*>(&position_),
           reinterpret_cast<char*>(&other->position_));

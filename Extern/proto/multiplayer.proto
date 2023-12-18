@@ -17,6 +17,7 @@ message Vector
 message Player
 {
 	required int32 id = 1;
+	optional int32 requestId = 6;
 	optional Vector position = 2;
 	optional Vector direction = 3;
 	optional Vector orientation = 4;	

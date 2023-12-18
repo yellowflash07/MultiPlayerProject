@@ -572,6 +572,7 @@ class Player final :
     kOrientationFieldNumber = 4,
     kBulletFieldNumber = 5,
     kIdFieldNumber = 1,
+    kRequestIdFieldNumber = 6,
   };
   // optional .Vector position = 2;
   bool has_position() const;
@@ -658,6 +659,19 @@ class Player final :
   void _internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
+  // optional int32 requestId = 6;
+  bool has_requestid() const;
+  private:
+  bool _internal_has_requestid() const;
+  public:
+  void clear_requestid();
+  ::PROTOBUF_NAMESPACE_ID::int32 requestid() const;
+  void set_requestid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_requestid() const;
+  void _internal_set_requestid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Player)
  private:
   class _Internal;
@@ -672,6 +686,7 @@ class Player final :
   ::Vector* orientation_;
   ::Bullet* bullet_;
   ::PROTOBUF_NAMESPACE_ID::int32 id_;
+  ::PROTOBUF_NAMESPACE_ID::int32 requestid_;
   friend struct ::TableStruct_multiplayer_2eproto;
 };
 // -------------------------------------------------------------------
@@ -1257,6 +1272,34 @@ inline void Player::_internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
 inline void Player::set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_id(value);
   // @@protoc_insertion_point(field_set:Player.id)
+}
+
+// optional int32 requestId = 6;
+inline bool Player::_internal_has_requestid() const {
+  bool value = (_has_bits_[0] & 0x00000020u) != 0;
+  return value;
+}
+inline bool Player::has_requestid() const {
+  return _internal_has_requestid();
+}
+inline void Player::clear_requestid() {
+  requestid_ = 0;
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 Player::_internal_requestid() const {
+  return requestid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 Player::requestid() const {
+  // @@protoc_insertion_point(field_get:Player.requestId)
+  return _internal_requestid();
+}
+inline void Player::_internal_set_requestid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _has_bits_[0] |= 0x00000020u;
+  requestid_ = value;
+}
+inline void Player::set_requestid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_requestid(value);
+  // @@protoc_insertion_point(field_set:Player.requestId)
 }
 
 // optional .Vector position = 2;
