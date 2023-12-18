@@ -13,6 +13,7 @@ public:
 	void SetDirection(glm::vec3 dir);
 	void SendDataToServer();
 	void SetClient(UdpClient &client);
+	int GetIdFromServer();
 private:
 	glm::vec3 m_position;
 	float speed = 0.1f;

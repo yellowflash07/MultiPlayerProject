@@ -31,6 +31,7 @@ public:
 
 	bool Initialize();
 	void SendDataToServer();
+	void RecieveData();
 	void SetBuffer(Buffer buf) 
 	{ 
 		m_buffer.Clear();
@@ -38,11 +39,15 @@ public:
 		hasData = true;
 	}
 	Buffer GetRecvBuffer() { return m_recvBuffer; }
+	void SetNonBlocking();
 private:
 	SOCKET m_serverSocket;
 	Buffer m_buffer;
 	Buffer m_recvBuffer;
 	int bufSize = 1024;
 	bool hasData = false;
+	sockaddr_in addr;
+	int addrLen = sizeof(addr);
+
 };
 

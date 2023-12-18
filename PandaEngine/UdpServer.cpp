@@ -104,7 +104,9 @@ void UdpServer::RecvDataFromClient()
 {
 	sockaddr_in addr;
 	int addrLen = sizeof(addr);
-	Buffer recvBuffer(bufSize);
+//	Buffer m_recv;
+	recvBuffer.Clear();
+	recvBuffer.bufferData.resize(bufSize);
 	int result = recvfrom(m_listenSocket, (char*)&recvBuffer.bufferData[0], bufSize, 0,
 						(SOCKADDR*)&addr, &addrLen);
 	if (result == SOCKET_ERROR)
@@ -167,24 +169,7 @@ void UdpServer::RecvDataFromClient()
 		printf("New client connected: %s:%d\n", inet_ntoa(addr.sin_addr), addr.sin_port);
 	}
 
-	if (m_buffer.bufferData.size() > 0)
-	{
-		uint32_t packetSize = recvBuffer.ReadUInt32LE();
-		if (packetSize > 0)
-		{
-			std::string str = recvBuffer.ReadString(packetSize);
-			printf("Received: %s\n", str.c_str());
-			recvBuffer.Clear();
-			//reset buffer
-			m_buffer.Clear();
-			m_buffer.bufferData.resize(bufSize);
-			m_buffer.WriteUInt32LE(packetSize);
-			m_buffer.WriteString(str);
-		}
-	
-	}
-
-//	printf("From: %s:%d: \n", inet_ntoa(clientInfo.sin_addr), clientInfo.sin_port);
+	clientIndex = clientId;
 
 }
 

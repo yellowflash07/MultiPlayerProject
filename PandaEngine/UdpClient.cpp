@@ -1,4 +1,5 @@
 #include "UdpClient.h"
+#include "../Extern/proto/multiplayer.pb.h"
 
 UdpClient::UdpClient()
 {
@@ -32,14 +33,19 @@ bool UdpClient::Initialize()
 	}
 	printf("socket created successfully!\n");
 
+
 	unsigned long nonblock = 1;
 	result = ioctlsocket(m_serverSocket, FIONBIO, &nonblock);
-	if (result == SOCKET_ERROR) 
+	if (result == SOCKET_ERROR)
 	{
 		printf("set nonblocking failed with error %d\n", result);
 		return false;
 	}
 	printf("set nonblocking successfully!\n");
+
+	addr.sin_family = AF_INET;
+	addr.sin_port = htons(8412);
+	addr.sin_addr.s_addr = inet_addr("127.0.0.1");
 
 	return true;
 
@@ -47,15 +53,6 @@ bool UdpClient::Initialize()
 
 void UdpClient::SendDataToServer()
 {
-	//const int bufLen = 32;
-	//char buffer[bufLen];
-	//std::string buf = "Hello";
-	sockaddr_in addr;
-	addr.sin_family = AF_INET;
-	addr.sin_port = htons(8412);
-	addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-	int addrLen = sizeof(addr);
-
 	if (hasData)
 	{
 		int result = sendto(m_serverSocket, (const char*)&m_buffer.bufferData[0], bufSize, 0, (SOCKADDR*)&addr, addrLen);
@@ -66,12 +63,13 @@ void UdpClient::SendDataToServer()
 			WSACleanup();
 			return;
 		}
+
 		hasData = false;
 	}
 
 	m_recvBuffer.bufferData.resize(bufSize);
 	int result = recvfrom(m_serverSocket, (char*)&m_recvBuffer.bufferData[0], bufSize, 0, (SOCKADDR*)&addr, &addrLen);
-	if (result == SOCKET_ERROR) 
+	if (result == SOCKET_ERROR)
 	{
 		if (WSAGetLastError() == WSAEWOULDBLOCK)
 		{
@@ -85,18 +83,8 @@ void UdpClient::SendDataToServer()
 		WSACleanup();
 		return;
 	}
-
-	if (m_recvBuffer.bufferData.size() > 0)
-	{
-		uint32_t len = m_recvBuffer.ReadUInt32LE();
-		std::string str = m_recvBuffer.ReadString(len);
-		printf("Received: %s\n", str.c_str());
-
-		m_recvBuffer.Clear();
-		m_buffer.Clear();
-	}
-
-	//printf("From: %s:%d: %s\n", inet_ntoa(addr.sin_addr), addr.sin_port, buffer);
 }
+
+
 
 

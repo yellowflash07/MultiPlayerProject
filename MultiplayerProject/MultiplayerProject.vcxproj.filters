@@ -16,24 +16,36 @@
     <Filter Include="Protobuf">
       <UniqueIdentifier>{ffd212c5-fc0c-402f-bce0-e7faf488853c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{8d38b759-ddb5-4a62-b7ae-c6ea6bb11e2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameServer.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
     <ClCompile Include="PlayerClient.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="..\Extern\proto\multiplayer.pb.cc">
       <Filter>Protobuf</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameServer.h">
+      <Filter>Network</Filter>
+    </ClInclude>
     <ClInclude Include="PlayerClient.h">
-      <Filter>Header Files</Filter>
+      <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="..\Extern\proto\multiplayer.pb.h">
       <Filter>Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Message.h">
+      <Filter>Network</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

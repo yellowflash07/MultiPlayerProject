@@ -16,9 +16,10 @@ message Vector
 
 message Player
 {
-	optional Vector position = 1;
-	optional Vector direction = 2;
-	optional Vector orientation = 3;	
+	required int32 id = 1;
+	optional Vector position = 2;
+	optional Vector direction = 3;
+	optional Vector orientation = 4;	
 }
 
 message Bullet

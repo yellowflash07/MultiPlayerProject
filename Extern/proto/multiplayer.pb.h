@@ -567,11 +567,12 @@ class Player final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kPositionFieldNumber = 1,
-    kDirectionFieldNumber = 2,
-    kOrientationFieldNumber = 3,
+    kPositionFieldNumber = 2,
+    kDirectionFieldNumber = 3,
+    kOrientationFieldNumber = 4,
+    kIdFieldNumber = 1,
   };
-  // optional .Vector position = 1;
+  // optional .Vector position = 2;
   bool has_position() const;
   private:
   bool _internal_has_position() const;
@@ -589,7 +590,7 @@ class Player final :
       ::Vector* position);
   ::Vector* unsafe_arena_release_position();
 
-  // optional .Vector direction = 2;
+  // optional .Vector direction = 3;
   bool has_direction() const;
   private:
   bool _internal_has_direction() const;
@@ -607,7 +608,7 @@ class Player final :
       ::Vector* direction);
   ::Vector* unsafe_arena_release_direction();
 
-  // optional .Vector orientation = 3;
+  // optional .Vector orientation = 4;
   bool has_orientation() const;
   private:
   bool _internal_has_orientation() const;
@@ -625,6 +626,19 @@ class Player final :
       ::Vector* orientation);
   ::Vector* unsafe_arena_release_orientation();
 
+  // required int32 id = 1;
+  bool has_id() const;
+  private:
+  bool _internal_has_id() const;
+  public:
+  void clear_id();
+  ::PROTOBUF_NAMESPACE_ID::int32 id() const;
+  void set_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_id() const;
+  void _internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Player)
  private:
   class _Internal;
@@ -637,6 +651,7 @@ class Player final :
   ::Vector* position_;
   ::Vector* direction_;
   ::Vector* orientation_;
+  ::PROTOBUF_NAMESPACE_ID::int32 id_;
   friend struct ::TableStruct_multiplayer_2eproto;
 };
 // -------------------------------------------------------------------
@@ -1216,7 +1231,35 @@ inline void Vector::set_z(float value) {
 
 // Player
 
-// optional .Vector position = 1;
+// required int32 id = 1;
+inline bool Player::_internal_has_id() const {
+  bool value = (_has_bits_[0] & 0x00000008u) != 0;
+  return value;
+}
+inline bool Player::has_id() const {
+  return _internal_has_id();
+}
+inline void Player::clear_id() {
+  id_ = 0;
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 Player::_internal_id() const {
+  return id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 Player::id() const {
+  // @@protoc_insertion_point(field_get:Player.id)
+  return _internal_id();
+}
+inline void Player::_internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _has_bits_[0] |= 0x00000008u;
+  id_ = value;
+}
+inline void Player::set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_id(value);
+  // @@protoc_insertion_point(field_set:Player.id)
+}
+
+// optional .Vector position = 2;
 inline bool Player::_internal_has_position() const {
   bool value = (_has_bits_[0] & 0x00000001u) != 0;
   PROTOBUF_ASSUME(!value || position_ != nullptr);
@@ -1306,7 +1349,7 @@ inline void Player::set_allocated_position(::Vector* position) {
   // @@protoc_insertion_point(field_set_allocated:Player.position)
 }
 
-// optional .Vector direction = 2;
+// optional .Vector direction = 3;
 inline bool Player::_internal_has_direction() const {
   bool value = (_has_bits_[0] & 0x00000002u) != 0;
   PROTOBUF_ASSUME(!value || direction_ != nullptr);
@@ -1396,7 +1439,7 @@ inline void Player::set_allocated_direction(::Vector* direction) {
   // @@protoc_insertion_point(field_set_allocated:Player.direction)
 }
 
-// optional .Vector orientation = 3;
+// optional .Vector orientation = 4;
 inline bool Player::_internal_has_orientation() const {
   bool value = (_has_bits_[0] & 0x00000004u) != 0;
   PROTOBUF_ASSUME(!value || orientation_ != nullptr);

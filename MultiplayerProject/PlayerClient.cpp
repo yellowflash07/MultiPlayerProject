@@ -3,6 +3,7 @@
 PlayerClient::PlayerClient()
 {
 	m_player = new Player();
+//	m_player = GetIdFromServer();
 }
 
 PlayerClient::~PlayerClient()
@@ -34,11 +35,11 @@ void PlayerClient::SetDirection(glm::vec3 dir)
 void PlayerClient::SendDataToServer()
 {
 	m_buffer.Clear();
-	std::string serializedPlayer = m_player->SerializeAsString();
-	m_buffer.WriteUInt32LE(serializedPlayer.length());
-	m_buffer.WriteString(serializedPlayer);
+	//std::string serializedPlayer = m_player->SerializeAsString();
+	//m_buffer.WriteUInt32LE(serializedPlayer.length());
+	//m_buffer.WriteString(serializedPlayer);
 
-	m_client->SetBuffer(m_buffer);	
+	//m_client->SetBuffer(m_buffer);	
 
 	//m_client.SendDataToServer();
 }
@@ -48,3 +49,4 @@ void PlayerClient::SetClient(UdpClient &client)
 	client.SetBuffer(m_buffer);
 	m_client = &client;
 }
+

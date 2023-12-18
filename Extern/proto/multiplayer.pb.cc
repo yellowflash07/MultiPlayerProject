@@ -47,7 +47,8 @@ constexpr Player::Player(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
   : position_(nullptr)
   , direction_(nullptr)
-  , orientation_(nullptr){}
+  , orientation_(nullptr)
+  , id_(0){}
 struct PlayerDefaultTypeInternal {
   constexpr PlayerDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -118,9 +119,11 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_multiplayer_2eproto::offsets[]
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Player, id_),
   PROTOBUF_FIELD_OFFSET(::Player, position_),
   PROTOBUF_FIELD_OFFSET(::Player, direction_),
   PROTOBUF_FIELD_OFFSET(::Player, orientation_),
+  3,
   0,
   1,
   2,
@@ -152,9 +155,9 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_multiplayer_2eproto::offsets[]
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, 8, -1, sizeof(::UserInput)},
   { 10, 19, -1, sizeof(::Vector)},
-  { 22, 31, -1, sizeof(::Player)},
-  { 34, 43, -1, sizeof(::Bullet)},
-  { 46, 55, -1, sizeof(::GameScene)},
+  { 22, 32, -1, sizeof(::Player)},
+  { 36, 45, -1, sizeof(::Bullet)},
+  { 48, 57, -1, sizeof(::GameScene)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -168,17 +171,18 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 const char descriptor_table_protodef_multiplayer_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\021multiplayer.proto\"&\n\tUserInput\022\n\n\002id\030\001"
   " \002(\005\022\r\n\005input\030\002 \002(\t\")\n\006Vector\022\t\n\001x\030\001 \001(\002"
-  "\022\t\n\001y\030\002 \001(\002\022\t\n\001z\030\003 \001(\002\"]\n\006Player\022\031\n\010posi"
-  "tion\030\001 \001(\0132\007.Vector\022\032\n\tdirection\030\002 \001(\0132\007"
-  ".Vector\022\034\n\013orientation\030\003 \001(\0132\007.Vector\"L\n"
-  "\006Bullet\022\021\n\thasBullet\030\001 \002(\005\022\023\n\013playerInde"
-  "x\030\002 \002(\005\022\032\n\tdirection\030\003 \002(\0132\007.Vector\"K\n\tG"
-  "ameScene\022\n\n\002id\030\001 \002(\005\022\030\n\007players\030\002 \003(\0132\007."
-  "Player\022\030\n\007bullets\030\003 \003(\0132\007.Bullet"
+  "\022\t\n\001y\030\002 \001(\002\022\t\n\001z\030\003 \001(\002\"i\n\006Player\022\n\n\002id\030\001"
+  " \002(\005\022\031\n\010position\030\002 \001(\0132\007.Vector\022\032\n\tdirec"
+  "tion\030\003 \001(\0132\007.Vector\022\034\n\013orientation\030\004 \001(\013"
+  "2\007.Vector\"L\n\006Bullet\022\021\n\thasBullet\030\001 \002(\005\022\023"
+  "\n\013playerIndex\030\002 \002(\005\022\032\n\tdirection\030\003 \002(\0132\007"
+  ".Vector\"K\n\tGameScene\022\n\n\002id\030\001 \002(\005\022\030\n\007play"
+  "ers\030\002 \003(\0132\007.Player\022\030\n\007bullets\030\003 \003(\0132\007.Bu"
+  "llet"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_multiplayer_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_multiplayer_2eproto = {
-  false, false, 352, descriptor_table_protodef_multiplayer_2eproto, "multiplayer.proto", 
+  false, false, 364, descriptor_table_protodef_multiplayer_2eproto, "multiplayer.proto", 
   &descriptor_table_multiplayer_2eproto_once, nullptr, 0, 5,
   schemas, file_default_instances, TableStruct_multiplayer_2eproto::offsets,
   file_level_metadata_multiplayer_2eproto, file_level_enum_descriptors_multiplayer_2eproto, file_level_service_descriptors_multiplayer_2eproto,
@@ -726,6 +730,9 @@ void Vector::InternalSwap(Vector* other) {
 class Player::_Internal {
  public:
   using HasBits = decltype(std::declval<Player>()._has_bits_);
+  static void set_has_id(HasBits* has_bits) {
+    (*has_bits)[0] |= 8u;
+  }
   static const ::Vector& position(const Player* msg);
   static void set_has_position(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
@@ -737,6 +744,9 @@ class Player::_Internal {
   static const ::Vector& orientation(const Player* msg);
   static void set_has_orientation(HasBits* has_bits) {
     (*has_bits)[0] |= 4u;
+  }
+  static bool MissingRequiredFields(const HasBits& has_bits) {
+    return ((has_bits[0] & 0x00000008) ^ 0x00000008) != 0;
   }
 };
 
@@ -780,14 +790,15 @@ Player::Player(const Player& from)
   } else {
     orientation_ = nullptr;
   }
+  id_ = from.id_;
   // @@protoc_insertion_point(copy_constructor:Player)
 }
 
 void Player::SharedCtor() {
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
     reinterpret_cast<char*>(&position_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&orientation_) -
-    reinterpret_cast<char*>(&position_)) + sizeof(orientation_));
+    0, static_cast<size_t>(reinterpret_cast<char*>(&id_) -
+    reinterpret_cast<char*>(&position_)) + sizeof(id_));
 }
 
 Player::~Player() {
@@ -835,6 +846,7 @@ void Player::Clear() {
       orientation_->Clear();
     }
   }
+  id_ = 0;
   _has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -846,25 +858,34 @@ const char* Player::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::int
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // optional .Vector position = 1;
+      // required int32 id = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          _Internal::set_has_id(&has_bits);
+          id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional .Vector position = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
           ptr = ctx->ParseMessage(_internal_mutable_position(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // optional .Vector direction = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+      // optional .Vector direction = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
           ptr = ctx->ParseMessage(_internal_mutable_direction(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // optional .Vector orientation = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
+      // optional .Vector orientation = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 34)) {
           ptr = ctx->ParseMessage(_internal_mutable_orientation(), ptr);
           CHK_(ptr);
         } else
@@ -901,28 +922,34 @@ failure:
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  // optional .Vector position = 1;
+  // required int32 id = 1;
+  if (cached_has_bits & 0x00000008u) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_id(), target);
+  }
+
+  // optional .Vector position = 2;
   if (cached_has_bits & 0x00000001u) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(
-        1, _Internal::position(this), target, stream);
+        2, _Internal::position(this), target, stream);
   }
 
-  // optional .Vector direction = 2;
+  // optional .Vector direction = 3;
   if (cached_has_bits & 0x00000002u) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(
-        2, _Internal::direction(this), target, stream);
+        3, _Internal::direction(this), target, stream);
   }
 
-  // optional .Vector orientation = 3;
+  // optional .Vector orientation = 4;
   if (cached_has_bits & 0x00000004u) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(
-        3, _Internal::orientation(this), target, stream);
+        4, _Internal::orientation(this), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -937,27 +964,31 @@ size_t Player::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:Player)
   size_t total_size = 0;
 
+  // required int32 id = 1;
+  if (_internal_has_id()) {
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32SizePlusOne(this->_internal_id());
+  }
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
   if (cached_has_bits & 0x00000007u) {
-    // optional .Vector position = 1;
+    // optional .Vector position = 2;
     if (cached_has_bits & 0x00000001u) {
       total_size += 1 +
         ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
           *position_);
     }
 
-    // optional .Vector direction = 2;
+    // optional .Vector direction = 3;
     if (cached_has_bits & 0x00000002u) {
       total_size += 1 +
         ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
           *direction_);
     }
 
-    // optional .Vector orientation = 3;
+    // optional .Vector orientation = 4;
     if (cached_has_bits & 0x00000004u) {
       total_size += 1 +
         ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
@@ -988,7 +1019,7 @@ void Player::MergeFrom(const Player& from) {
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 0x00000007u) {
+  if (cached_has_bits & 0x0000000fu) {
     if (cached_has_bits & 0x00000001u) {
       _internal_mutable_position()->::Vector::MergeFrom(from._internal_position());
     }
@@ -998,6 +1029,10 @@ void Player::MergeFrom(const Player& from) {
     if (cached_has_bits & 0x00000004u) {
       _internal_mutable_orientation()->::Vector::MergeFrom(from._internal_orientation());
     }
+    if (cached_has_bits & 0x00000008u) {
+      id_ = from.id_;
+    }
+    _has_bits_[0] |= cached_has_bits;
   }
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -1010,6 +1045,7 @@ void Player::CopyFrom(const Player& from) {
 }
 
 bool Player::IsInitialized() const {
+  if (_Internal::MissingRequiredFields(_has_bits_)) return false;
   return true;
 }
 
@@ -1018,8 +1054,8 @@ void Player::InternalSwap(Player* other) {
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(Player, orientation_)
-      + sizeof(Player::orientation_)
+      PROTOBUF_FIELD_OFFSET(Player, id_)
+      + sizeof(Player::id_)
       - PROTOBUF_FIELD_OFFSET(Player, position_)>(
           reinterpret_cast<char*>(&position_),
           reinterpret_cast<char*>(&other->position_));
@@ -1574,6 +1610,7 @@ void GameScene::CopyFrom(const GameScene& from) {
 
 bool GameScene::IsInitialized() const {
   if (_Internal::MissingRequiredFields(_has_bits_)) return false;
+  if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(players_)) return false;
   if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(bullets_)) return false;
   return true;
 }

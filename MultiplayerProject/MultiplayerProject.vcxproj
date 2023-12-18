@@ -138,11 +138,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Extern\proto\multiplayer.pb.cc" />
+    <ClCompile Include="GameServer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PlayerClient.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Extern\proto\multiplayer.pb.h" />
+    <ClInclude Include="GameServer.h" />
+    <ClInclude Include="Message.h" />
     <ClInclude Include="PlayerClient.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

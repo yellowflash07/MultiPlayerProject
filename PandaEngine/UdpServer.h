@@ -37,15 +37,20 @@ public:
 	bool Initialize();
 	void Listen();
 
-	Buffer GetRecvBuffer() { return m_buffer; }
+	Buffer GetRecvBuffer() { return recvBuffer; }
+	int NumClients() { return m_ConnectedClients.size(); }
+	void SetSendBuffer(Buffer buffer) 
+	{ 
+		m_buffer.Clear();
+		m_buffer = buffer; 
+	}
+	void SendDataToClient();
+	int clientIndex = 0;
 private:
 	bool m_initialized;
 	SOCKET m_listenSocket;
-//	struct sockaddr_in clientInfo;
-//	int clientInfoLength = sizeof(sockaddr_in);
 	std::vector<ClientInfo> m_ConnectedClients;
-
-	void SendDataToClient();
+	Buffer recvBuffer;
 	void RecvDataFromClient();
 	Buffer m_buffer;
 	int bufSize = 1024;
