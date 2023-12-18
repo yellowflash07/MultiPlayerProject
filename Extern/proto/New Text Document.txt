@@ -1,0 +1,1 @@
+protoc -I=D:\GDP\0Projects\0NetworkFinalProject\MultiPlayerProject\Extern\bin --cpp_out=D:\GDP\0Projects\0NetworkFinalProject\MultiPlayerProject\Extern\bin  D:\GDP\0Projects\0NetworkFinalProject\MultiPlayerProject\Extern\bin\multiplayer.proto

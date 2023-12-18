@@ -61,9 +61,11 @@ int main(void)
     //Engine engine;
     //if (!engine.Initialize())
     //{
+    //{
     //    return 1;
     //}
 
+    //engine.meshManager->LoadTexture("PaletteV1.bmp");
     //engine.meshManager->LoadTexture("PaletteV1.bmp");
     //bool loaded = engine.meshManager->LoadCubeMap("space",
     //                                "CubeMaps/TropicalSunnyDayLeft2048.bmp",
@@ -109,7 +111,7 @@ int main(void)
                 if (keyHit == 119)
                 {
 
-                    pos += dir * 1.0f;
+                    pos += dir * 0.1f;
                     playerClient->SetPosition(pos);
                     playerClient->SendDataToServer();
 

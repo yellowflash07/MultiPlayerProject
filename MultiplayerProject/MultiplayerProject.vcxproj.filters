@@ -21,19 +21,19 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Extern\bin\multiplayer.pb.cc">
-      <Filter>Protobuf</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerClient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Extern\bin\multiplayer.pb.cc">
+      <Filter>Protobuf</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Extern\bin\multiplayer.pb.h">
-      <Filter>Protobuf</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerClient.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\bin\multiplayer.pb.h">
+      <Filter>Protobuf</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

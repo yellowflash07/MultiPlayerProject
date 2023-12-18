@@ -1,0 +1,37 @@
+
+syntax = "proto2";
+
+message UserInput 
+{
+	required int32 id = 1;
+	required string input = 2;
+}
+
+message Vector
+{
+	optional float x = 1;
+	optional float y = 2;
+	optional float z = 3;
+}
+
+message Player
+{
+	optional Vector position = 1;
+	optional Vector direction = 2;
+	optional Vector orientation = 3;	
+}
+
+message Bullet
+{
+	required int32 hasBullet = 1;
+	required int32 playerIndex = 2;
+	required Vector direction = 3;
+}
+
+message GameScene 
+{
+	required int32 id = 1;
+	repeated Player players = 2;
+	repeated Bullet bullets = 3;
+}
+
