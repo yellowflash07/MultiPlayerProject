@@ -8,6 +8,7 @@ Project done by a group of 3 - Ershad Mohammad Hussain(1127007) , Max Sherwin(11
 
 ## How to run
 
+- Build PandaEngine first
 - The solution "MultiplayerProject.sln" needs to be built(either in Debug or Release). The project "MultiplayerProject" should be set as startup project. Now the project can be run.
 
 ### Controls
