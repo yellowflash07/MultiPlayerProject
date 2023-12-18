@@ -137,12 +137,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Extern\bin\multiplayer.pb.cc" />
+    <ClCompile Include="..\Extern\proto\multiplayer.pb.cc" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PlayerClient.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Extern\bin\multiplayer.pb.h" />
+    <ClInclude Include="..\Extern\proto\multiplayer.pb.h" />
     <ClInclude Include="PlayerClient.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

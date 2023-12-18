@@ -24,7 +24,7 @@
     <ClCompile Include="PlayerClient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Extern\bin\multiplayer.pb.cc">
+    <ClCompile Include="..\Extern\proto\multiplayer.pb.cc">
       <Filter>Protobuf</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,7 +32,7 @@
     <ClInclude Include="PlayerClient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Extern\bin\multiplayer.pb.h">
+    <ClInclude Include="..\Extern\proto\multiplayer.pb.h">
       <Filter>Protobuf</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,6 +1,6 @@
 #pragma once
 #include <glm/vec3.hpp>
-#include "../Extern/bin/multiplayer.pb.h"
+#include "../Extern/proto/multiplayer.pb.h"
 #include <UdpClient.h>
 
 class PlayerClient
