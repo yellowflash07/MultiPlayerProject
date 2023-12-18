@@ -250,19 +250,7 @@ int main(void)
                                 body->UpdateAABBs();
                             }
                         }
-                        //check for collisions
-                        if (body->aabbPairs.size() > 0)
-                        {
-                            for (int j = 0; j < body->aabbPairs.size(); j++)
-                            {
-								cAABB* aabb = body->aabbPairs[j].first;
-								cAABB* aabb2 = body->aabbPairs[j].second;
-                                if (aabb->overlappingMeshName == "Bullet" && aabb2->overlappingMeshName == std::to_string(i))
-                                {
-									printf("Player %d hit\n", i);
-								}
-							}
-						}
+                      
                     } 
                 }
             }
@@ -305,6 +293,20 @@ int main(void)
 					bulletDir = dir;
                     hasShot = true;
 				}
+            }
+
+            //check for collisions
+            if (body->aabbPairs.size() > 0)
+            {
+                for (int j = 0; j < body->aabbPairs.size(); j++)
+                {
+                    cAABB* aabb = body->aabbPairs[j].first;
+                    cAABB* aabb2 = body->aabbPairs[j].second;
+                    if (aabb->overlappingMeshName == "Bullet" && aabb2->overlappingMeshName == std::to_string(i))
+                    {
+                        printf("Player %d hit\n", i);
+                    }
+                }
             }
 
             localState.pos = pos;
