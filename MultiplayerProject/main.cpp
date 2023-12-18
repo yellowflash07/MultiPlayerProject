@@ -5,7 +5,7 @@
 #include <map>
 #include "UdpServer.h"
 #include "UdpClient.h"
-#include "../Extern/bin/multiplayer.pb.h"
+#include "../Extern/proto/multiplayer.pb.h"
 #include "Buffer.h"
 #include <conio.h>
 #include "PlayerClient.h"
@@ -97,9 +97,7 @@ int main(void)
 			return 1;
 		}
         playerClient->SetClient(client);
-      //  buf.WriteUInt32LE(str.length());
-      //  buf.WriteString(str);
-       // client.SetBuffer(buf);
+
         while (true)
         {
             client.SendDataToServer();
@@ -116,18 +114,6 @@ int main(void)
                     playerClient->SendDataToServer();
 
                     printf("Sending data to server\n");
-                    //Vector* playerPos = new Vector();
-                    //playerPos->set_x(1);
-                    //playerPos->set_y(2);
-                    //playerPos->set_z(3);
-
-                    //Player* player = new Player();
-                    //player->set_allocated_position(playerPos);
-
-                    //std::string serializedPlayer = player->SerializeAsString();
-                    //buf.WriteUInt32LE(serializedPlayer.length());
-                    //buf.WriteString(serializedPlayer);
-                    //client.SetBuffer(buf);
                     
                 }
 			}
